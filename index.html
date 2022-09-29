@@ -185,16 +185,15 @@
 
 
 
-
 						PFont font;
 						// Button coords
 						float b1X, b1Y, b2X, b2Y, b3X, b3Y,
-						b4X, b4Y, b5X, b5Y, b6X, b6Y, bBX, bBY;
+						b4X, b4Y, b5X, b5Y, b6X, b6Y, bBX, bBY, bAX, bAY, bSX, bSY;
 						float buttonSize;
 						color baseColor, strokeColor;
-						color highlightColor, bC1, bC2, bC3, bC4, bC5, bC6, bC7; 
+						color highlightColor, bC1, bC2, bC3, bC4, bC5, bC6, bC7, bCS, bCA; 
 						boolean bOver1, bOver2, bOver3, bOver4, bOver5, bOver6, bOver7 = false;
-						boolean bFloorOpenDoor, bFloor1, bFloor2, bFloor3, bBack, bPhone = false;
+						boolean bFloorOpenDoor, bFloor1, bFloor2, bFloor3, bBack, bPhone, bStop, bAlarm = false;
 						int s, timer, currentFloor, oFont, phoneFont;
 						int state = 0;
 						String oDoor, dest, phone, emerg;
@@ -207,7 +206,7 @@
 						strokeColor = color(100,100,100);  
 						highlightColor = color(255, 0, 0);
 						
-						bC1 = bC2 = bC3 = bC4 = bC5 = bC6 = bC7 = strokeColor;
+						bC1 = bC2 = bC3 = bC4 = bC5 = bC6 = bC7 = bCS = bCA = strokeColor;
 						
 						  b1X = (width*0.080);
 						b1Y = (height*0.175);
@@ -226,6 +225,12 @@
 						
 						  bBX = (width*0.080);
 						bBY = (height*0.040);
+						
+						  bAX = (width*0.080);
+						bAY = (height*0.2);
+						  bSX = (width*0.080);
+						bSY = (height*0.5);
+						
 						
 						buttonSize = 35;
 						currentFloor = 1;
@@ -421,12 +426,61 @@
 						if (bPhone == true) {phone = "   Connected Speaking With:   -- -- Dang -- --"; phoneFont = 40;}//Monitor change
 						  bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = false;
 						}
+						break; //Break case 1: Phone
+						/////////////////////////////////////////////////////////////////////////////////////
+						/////////////////////////////////////////////////////////////////////////////////////
+						/////////////////////////////////////////////////////////////////////////////////////
+						/////////////////////////////////////////////////////////////////////////////////////
+						case 2:
+						//Drawwing Back button
+						pushStyle();
+						pushMatrix();
+						stroke(bC7);
+						strokeWeight(8);
+						fill(baseColor);
+						rect(bBX, bBY, 75, 75, 20);
+						popMatrix();
+						popStyle();
+						//Button Characters
+						pushStyle();
+						fill(bC7);
+						textFont(font,25);
+						text("Back", bBX+8, bBY+45);
+						popStyle();
 						
-						break; //Break case 1:
+						//Drawwing Alarm button
+						pushStyle();
+						pushMatrix();
+						stroke(bCA);
+						strokeWeight(8);
+						fill(baseColor);
+						rect(bAX, bAY, 300, 150, 20);
+						popMatrix();
+						popStyle();
+						//Button Characters
+						fill(bCA);
+						text("Alarm", bAX+75, bAY+55);
+						
+						//Drawwing Stop button
+						pushStyle();
+						pushMatrix();
+						stroke(bCS);
+						strokeWeight(8);
+						fill(baseColor);
+						rect(bSX, bSY, 300, 150, 20);
+						popMatrix();
+						popStyle();
+						//Button Characters
+						fill(bCS);
+						text("Stop", bSX+90, bSY+55);
 						
 						
-						
-						
+						if (s == timer) {
+						  bC5 = bC6 = bC7 = color(100,100,100);
+						if (bPhone == true) {phone = "   Connected Speaking With:   -- -- Dang -- --"; phoneFont = 40;}//Monitor change
+						  bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = false;
+						}
+						break; //Break case 2: //Emergency
 						
 						} // Switch state end
 						
@@ -536,6 +590,7 @@
 						//Emergency Button Click
 						else if (bOver6) {
 						   bC6 = highlightColor;
+						   state = 2;
 						   timer = s + 2;
 						   if (timer > 60){
 							 timer = 3;
