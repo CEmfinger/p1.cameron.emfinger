@@ -4,15 +4,15 @@
   PFont font;
   // Button coords
   float b1X, b1Y, b2X, b2Y, b3X, b3Y,
-  b4X, b4Y, b5X, b5Y, b6X, b6Y, bBX, bBY, bAX, bAY, bSX, bSY;
+  b4X, b4Y, b5X, b5Y, b6X, b6Y, bBX, bBY, bAX, bAY, bSX, bSY, bCX, bCY;
   float buttonSize;
   color baseColor, strokeColor;
-  color highlightColor, bC1, bC2, bC3, bC4, bC5, bC6, bC7, bCS, bCA; 
-  boolean bOver1, bOver2, bOver3, bOver4, bOver5, bOver6, bOver7 = false;
-  boolean bFloorOpenDoor, bFloor1, bFloor2, bFloor3, bBack, bPhone, bStop, bAlarm = false;
-  int s, timer, currentFloor, oFont, phoneFont;
+  color highlightColor, bC1, bC2, bC3, bC4, bC5, bC6, bC7, bCS, bCA, bCC; 
+  boolean bOver1, bOver2, bOver3, bOver4, bOver5, bOver6, bOver7, bOver8, bOver9, bOver10 = false;
+  boolean bFloorOpenDoor, bFloor1, bFloor2, bFloor3, bBack, bPhone, bStop, bAlarm, bCancel= false;
+  int s, timer, currentFloor, oFont, phoneFont, alarmFont, stopFont;
   int state = 0;
-  String oDoor, dest, phone, emerg;
+  String oDoor, dest, phone, emerg, stop, alarm;
   
 void setup() {
   size(360, 720, P2D);
@@ -22,7 +22,7 @@ void setup() {
   strokeColor = color(100,100,100);  
   highlightColor = color(255, 0, 0);
   
-  bC1 = bC2 = bC3 = bC4 = bC5 = bC6 = bC7 = bCS = bCA = strokeColor;
+  bC1 = bC2 = bC3 = bC4 = bC5 = bC6 = bC7 = bCS = bCA = bCC = strokeColor;
   
     b1X = (width*0.080);
   b1Y = (height*0.175);
@@ -47,6 +47,9 @@ void setup() {
     bSX = (width*0.080);
   bSY = (height*0.5);
   
+    bCX = (width*0.080);
+  bCY = (height*0.840);
+  
   
   buttonSize = 35;
   currentFloor = 1;
@@ -55,6 +58,10 @@ void setup() {
   oFont = 50;
   phone = "Contacting Monitoring Services...";
   phoneFont = 50;
+  stop = "Stopping Elevator...";
+  stopFont = 50;
+  alarm = "Alarm will sound in     3.. 2.. 1..";
+  alarmFont = 50;
   
   //Creating a font 
   font = createFont("Arial",20,true);
@@ -247,7 +254,8 @@ void draw() {
   /////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////
-  case 2:
+  case 2: // Emergency buttons 
+  
   //Drawwing Back button
   pushStyle();
   pushMatrix();
@@ -275,7 +283,7 @@ void draw() {
   popStyle();
   //Button Characters
   fill(bCA);
-  text("Alarm", bAX+75, bAY+55);
+  text("Alarm", bAX+77, bAY+90);
   
   //Drawwing Stop button
   pushStyle();
@@ -288,16 +296,91 @@ void draw() {
   popStyle();
   //Button Characters
   fill(bCS);
-  text("Stop", bSX+90, bSY+55);
+  text("Stop", bSX+92, bSY+90);
+  
+  
+  
   
   
   if (s == timer) {
     bC5 = bC6 = bC7 = color(100,100,100);
   if (bPhone == true) {phone = "   Connected Speaking With:   -- -- Dang -- --"; phoneFont = 40;}//Monitor change
-    bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = false;
+    bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = bStop = bAlarm = false;
   }
   break; //Break case 2: //Emergency
   
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  case 3: // Alarm Button 
+  
+  
+  
+  pushStyle();
+  textFont(font,50);
+  fill(baseColor);
+  textFont(font, alarmFont);
+  text(alarm, width*0.17, height*0.3, 300,600);
+  popStyle();
+  
+  //Drawwing Cancel button
+  pushStyle();
+  pushMatrix();
+  stroke(bCC);
+  strokeWeight(8);
+  fill(baseColor);
+  rect(bCX, bCY, 300, 75, 20);
+  popMatrix();
+  popStyle();
+  //Button Characters
+  fill(bCC);
+  text("Cancel", b6X+30, b6Y+55);
+  
+  if (s == timer) {
+   bC1 = bC5 = bC6 = bC7 = color(100,100,100);
+  if (bAlarm == true) {alarm = "   Alarm  Sounding"; phoneFont = 40;}//Monitor change
+    bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = bStop = bAlarm = false;
+  }
+  
+  
+  break;
+  
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  case 4: // Stop Button
+  
+  
+  pushStyle();
+  textFont(font,50);
+  fill(baseColor);
+  textFont(font, stopFont);
+  text(stop, width*0.17, height*0.3, 300,600);
+  popStyle();
+  
+  
+  //Drawwing Cancel button
+  pushStyle();
+  pushMatrix();
+  stroke(bCC);
+  strokeWeight(8);
+  fill(baseColor);
+  rect(bCX, bCY, 300, 75, 20);
+  popMatrix();
+  popStyle();
+  //Button Characters
+  fill(bCC);
+  text("Cancel", b6X+30, b6Y+55);
+  
+  if (s == timer) {
+   bC1 = bC5 = bC6 = bC7 = color(100,100,100);
+  if (bStop == true) {stop = "Elevator    Stopped"; phoneFont = 40;}//Monitor change
+    bFloorOpenDoor = bFloor1 = bFloor2 = bFloor3 = bPhone = bStop = bAlarm = false;
+  }
+  
+  break;
   } // Switch state end
   
 }
@@ -329,27 +412,39 @@ void update(int x, int y) {
     bOver2 = true;
   }
   else if ( overCircle(b3X, b3Y, buttonSize) ) {
-   //strokeColor = colot(100, 100,100);
+   //strokeColor = color(100, 100,100);
     bOver3 = true;
   }
   else if ( overCircle(b4X, b4Y, buttonSize) ) {
-   //strokeColor = colot(100, 100,100);
+   //strokeColor = color(100, 100,100);
     bOver4 = true;
   }
   else if ( overRect(b5X, b5Y, 300, 75) ) {
-   //strokeColor = colot(100, 100,100);
+   //strokeColor = color(100, 100,100);
     bOver5 = true;
   }
   else if ( overRect(b6X, b6Y, 300, 75) ) {
-   //strokeColor = colot(100, 100,100);
+   //strokeColor = color(100, 100,100);
     bOver6 = true;
   }
   else if ( overRect(bBX, bBY, 75, 75) ) {
-   //strokeColor = colot(100, 100,100);
+   //strokeColor = color(100, 100,100);
     bOver7 = true;
   }
+  else if ( overRect(bAX, bAY, 300, 75) ) {
+   //strokeColor = color(255, 100,100);
+    bOver8 = true;
+  }
+  else if ( overRect(bSX, bSY, 300, 75) ) {
+  // strokeColor = color(255, 100,100);
+    bOver9 = true;
+  }
+  else if ( overRect(bCX, bCY, 300, 75) ) {
+  // strokeColor = color(255, 100,100);
+    bOver10 = true;
+  }
   else {
-    bOver1 = bOver2 = bOver3 = bOver4 = bOver5 = bOver6 = bOver7= false;
+    bOver1 = bOver2 = bOver3 = bOver4 = bOver5 = bOver6 = bOver7 = bOver8 = bOver9 = bOver10 = false;
   }
 }
 
@@ -414,14 +509,43 @@ void mousePressed() {
   }
   //Back button click
   else if (bOver7) {
-   bC7 = highlightColor;
-   timer = s + 1;
+  // bC7 = highlightColor;
+  // timer = s + 1;
    state = 0;
    if (timer > 60){
      timer = 2;
    }
   }
-  
+    //Alarm button click
+  else if (bOver8) {
+  // bCA = highlightColor;
+   timer = s + 2;
+   state = 3;
+   bAlarm = true;
+   if (timer > 60){
+     timer = 2;
+   }
+  }
+    //Stop button click
+  else if (bOver9) {
+   //bCS = highlightColor;
+   timer = s + 2;
+   state = 4;
+   bStop = true;
+   if (timer > 60){
+     timer = 2;
+   }
+  }
+    //Cancel button click
+  else if (bOver10) {
+   //bCC = highlightColor;
+  // timer = s + 1;
+   state = 2;
+   bCancel = true;
+   if (timer > 60){
+     timer = 2;
+   }
+  }
 }
 
 boolean overRect(float x, float y, float width, float height)  {
