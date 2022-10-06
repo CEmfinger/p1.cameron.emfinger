@@ -335,7 +335,7 @@ void draw() {
   popStyle();
   //Button Characters
   fill(bCC);
-  text("Cancel", b6X+30, b6Y+55);
+  text("Cancel", b6X+70, b6Y+55);
   
   if (s == timer) {
    bC1 = bC5 = bC6 = bC7 = color(100,100,100);
@@ -372,7 +372,7 @@ void draw() {
   popStyle();
   //Button Characters
   fill(bCC);
-  text("Cancel", b6X+30, b6Y+55);
+  text("Cancel", b6X+70, b6Y+55);
   
   if (s == timer) {
    bC1 = bC5 = bC6 = bC7 = color(100,100,100);
@@ -519,7 +519,7 @@ void mousePressed() {
     //Alarm button click
   else if (bOver8) {
   // bCA = highlightColor;
-   timer = s + 2;
+   timer = s + 3;
    state = 3;
    bAlarm = true;
    if (timer > 60){
@@ -529,7 +529,7 @@ void mousePressed() {
     //Stop button click
   else if (bOver9) {
    //bCS = highlightColor;
-   timer = s + 2;
+   timer = s + 3;
    state = 4;
    bStop = true;
    if (timer > 60){
